@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CryptoX — Live Market</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<link rel="stylesheet" href="cryptoprices.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Crypto prices</h1>
+    <p>Realtime Crypto Market — Prices, Charts & Insights</p>
+
+    <div class="controls">
+        <input id="search" placeholder="Search cryptocurrency…">
+        <select id="currency">
+            <option value="usd">USD ($)</option>
+            <option value="inr">INR (₹)</option>
+        </select>
+    </div>
+</header>
+
+<div class="container">
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Coin</th>
+                <th>Price</th>
+                <th>24h</th>
+                <th>Market Cap</th>
+            </tr>
+        </thead>
+        <tbody id="table"></tbody>
+    </table>
+</div>
+
+<footer>
+    © 2026 CryptoX| Built by Arpan Roy
+</footer>
+
+
+<div id="modal">
+    <div class="modal-box">
+        <span class="close" onclick="closeModal()">✖</span>
+        <div id="details"></div>
+        <canvas id="chart" height="120"></canvas>
+    </div>
+</div>
+
+<script>
+let coins = [], live = {}, chart;
+let currency = "usd", inrRate = 83;
+
+
+fetch("https://api.exchangerate.host/latest?base=USD&symbols=INR")
+.then(r=>r.json()).then(d=>inrRate=d.rates.INR).catch(()=>{});
+
+
+async function loadCoins() {
+    const res = await fetch(
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1"
+    );
+    coins = await res.json();
+    render();
+}
+
+
+function render() {
+    const q = search.value.toLowerCase();
+    table.innerHTML = "";
+
+    coins.filter(c=>c.name.toLowerCase().includes(q)).forEach((c,i)=>{
+        let price = live[c.symbol] ?? c.current_price;
+        if(currency==="inr") price*=inrRate;
+
+        table.innerHTML += `
+        <tr onclick="openCoin('${c.id}')">
+            <td>${i+1}</td>
+            <td><img src="${c.image}" width="22">${c.name} (${c.symbol.toUpperCase()})</td>
+            <td>${currency==="usd"?"$":"₹"}${price.toLocaleString()}</td>
+            <td class="${c.price_change_percentage_24h>=0?"up":"down"}">
+                ${c.price_change_percentage_24h.toFixed(2)}%
+            </td>
+            <td>$${c.market_cap.toLocaleString()}</td>
+        </tr>`;
+    });
+}
+
+search.oninput = render;
+currency.onchange = e => { currency = e.target.value; render(); };
+
+
+const ws = new WebSocket("wss://stream.binance.com:9443/ws/!miniTicker@arr");
+ws.onmessage = e => {
+    JSON.parse(e.data).forEach(t=>{
+        const s = t.s.replace("USDT","").toLowerCase();
+        live[s] = +t.c;
+    });
+    render();
+};
+
+
+async function openCoin(id) {
+    modal.style.display = "block";
+    details.innerHTML = "Loading…";
+
+    const info = await fetch(`https://api.coingecko.com/api/v3/coins/${id}`).then(r=>r.json());
+    const hist = await fetch(
+        `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=7`
+    ).then(r=>r.json());
+
+    details.innerHTML = `
+        <h2 style="color:var(--cyan)">
+            <img src="${info.image.small}">
+            ${info.name} (${info.symbol.toUpperCase()})
+        </h2>
+        <p>💰 Price: $${info.market_data.current_price.usd.toLocaleString()}</p>
+        <p>🏦 Market Cap: $${info.market_data.market_cap.usd.toLocaleString()}</p>
+    `;
+
+    if(chart) chart.destroy();
+    chart = new Chart(document.getElementById("chart"), {
+        type: "line",
+        data: {
+            labels: hist.prices.map(p=>new Date(p[0]).toLocaleDateString()),
+            datasets: [{
+                data: hist.prices.map(p=>p[1]),
+                borderWidth: 2,
+                tension: 0.4
+            }]
+        },
+        options: { plugins:{legend:{display:false}} }
+    });
+}
+
+function closeModal(){ modal.style.display="none"; }
+
+loadCoins();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,152 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+body{
+    background-color:rgb(9, 1, 10);
+    font-family: 'Poppins', sans-serif;
+    color: rgb(252, 242, 255);
+}
+
+    nav {
+        height: 85px;
+        width: 100%;
+        background: linear-gradient(135deg, #040407, #10041d);
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    nav ul {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    nav ul li {
+        list-style: none;
+        margin: 0 20px;
+        font-size: 20px;
+        color: white;
+
+    }
+
+    nav ul li a {
+        text-decoration: none;
+        color: white;
+        margin-left: 10px;
+    }
+
+    nav ul li a:hover {
+        color: rgb(86, 32, 202);
+        font-size: 1.30rem;
+    }
+
+        .logo {
+    
+            padding: 20px 50px;
+            margin-right: auto;
+            font-size: 30px;
+            font-weight: bolder;
+            color: var(--neon-blue);
+            text-shadow:
+                0 0 2px var(--neon-blue),
+                0 0 10px var(--neon-blue);
+    
+    
+    
+        }
+        .login{
+            background-color: rgb(118, 7, 182);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 50px;
+            width: 100px;
+            border-radius:50px;
+            margin-left: 40px;
+            border-style: double;
+            color: #ffffff;
+            font-size: larger;
+            margin-right:40px ;
+            border-color: #923783;
+            
+            
+        }
+        span{
+            color: #c92bae;
+        }
+        .intro{
+            margin-top: 200px;
+            text-align: center;
+            
+            
+        }
+        .one{
+            font-size: 50px;
+            color: linear-gradient(10deg, #ffffff, #c92bae);
+            
+        }
+:root {
+    --bg: #020617;
+    --card: rgba(29, 6, 34, 0.85);
+    --cyan: #22d3ee;
+    --text: #e5e7eb;
+    --muted: #94a3b8;
+}
+
+.two{
+    margin-top: 300px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    color: var(--cyan);
+    font-size: 2.4rem;
+}
+
+header p {
+    margin-top: 10px;
+    color: var(--muted);
+}
+
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 40px 20px;
+    margin-top: 50px;
+}
+
+
+.crypto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+}
+
+.crypto-card {
+    background: var(--card);
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 0 20px rgba(34,211,238,0.15);
+    transition: transform 0.3s;
+}
+
+.crypto-card:hover {
+    transform: translateY(-5px);
+}
+
+.crypto-card h2 {
+    color: var(--cyan);
+    margin-top: 0;
+}
+
+.crypto-card p {
+    color: var(--muted);
+    font-size: 15px;
+}
+
+
+
+
