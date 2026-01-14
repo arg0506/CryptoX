@@ -1,5 +1,16 @@
 
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #020617;
+    --card: rgba(29, 6, 34, 0.85);
+    --cyan: #c4b3bc;
+    --border: rgba(85, 16, 73, 0.3);
+    --up: #22c55e;
+    --down: #ef4444;
+}
 
 body {
     margin: 0;
@@ -8,7 +19,6 @@ body {
     color: white;
     min-height: 100vh;
 }
-
 
 header {
     padding: 30px 20px;
@@ -28,7 +38,6 @@ header p {
     color: #da95bd;
 }
 
-
 .controls {
     display: flex;
     justify-content: center;
@@ -44,7 +53,6 @@ input, select {
     outline: none;
     font-size: 15px;
 }
-
 
 .container {
     padding: 25px;
@@ -91,11 +99,6 @@ img {
 }
 
 
-footer {
-    text-align: center;
-    padding: 18px;
-    color: #94a3b8;
-}
 
 #modal {
     display: none;
@@ -119,7 +122,71 @@ footer {
     font-size: 22px;
     cursor: pointer;
 }
+#search{
+    width: 500px;
+    border-radius: 40px;
+    background-color: antiquewhite;
+}
 
-@media(max-width: 768px) {
-    header h1 { font-size: 1.8rem; }
+/* Tablet */
+@media (max-width: 1024px) {
+    header h1 {
+        font-size: 1.9rem;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    .modal-box {
+        margin: 30px 16px;
+        max-width: 95%;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    header {
+        padding: 22px 16px;
+    }
+
+    header h1 {
+        font-size: 1.7rem;
+    }
+
+    header p {
+        font-size: 0.9rem;
+    }
+
+    .container {
+        padding: 16px 10px 24px;
+    }
+
+    table {
+        min-width: 700px;
+        font-size: 0.9rem;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    .modal-box {
+        margin: 24px 10px;
+        padding: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.4rem;
+    }
+
+    header p {
+        font-size: 0.8rem;
+    }
+
+    input, select {
+        width: 100%;
+    }
 }
