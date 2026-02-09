@@ -77,16 +77,3 @@ body {
     color: #530646;
 }
 
-@media (max-width: 480px) {
-    body {
-        
-        
-        
-    }
-
-    .login-container {
-        height: 1000px;
-        width:1000px;
-        
-    }
-}
